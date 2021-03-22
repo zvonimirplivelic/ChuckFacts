@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             if(response.isSuccessful && response.body() != null) {
-                chuckFactTextView.text = response.body()!!.value
+                chuckFactTextView.text = response.body()!!.fact
             } else {
                 Timber.d("Response isn't successful")
             }
