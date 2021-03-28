@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_fact_search"
+        android:icon="@drawable/ic_fact_search"
+        android:title="@string/botnav_search_facts" />
+
+    <item
+        android:id="@+id/navigation_new_fact"
+        android:title="Press for new fact" />
+
+    <item
+        android:id="@+id/navigation_fact_list"
+        android:icon="@drawable/ic_fact_list"
+        android:title="@string/botnav_saved_facts" />
+</menu>

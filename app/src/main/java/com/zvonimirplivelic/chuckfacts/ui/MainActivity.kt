@@ -1,65 +1,38 @@
-package com.zvonimirplivelic.chuckfacts
+package com.zvonimirplivelic.chuckfacts.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
-import com.zvonimirplivelic.chuckfacts.remote.RetrofitInstance
-import retrofit2.HttpException
-import timber.log.Timber
-import java.io.IOException
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.zvonimirplivelic.chuckfacts.R
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var chuckFactTextView: TextView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var newFactBtn: Button
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var newFactFab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        chuckFactTextView = findViewById(R.id.chuck_fact_tv)
-        progressBar = findViewById(R.id.progress_bar)
-        newFactBtn = findViewById(R.id.new_fact_btn)
+        bottomNavigationView = findViewById(R.id.bottom_nav_view)
+        newFactFab = findViewById(R.id.new_fact_fab)
 
-        randomFactNetworkCall()
+        val navController = findNavController(R.id.chuck_facts_navigation_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.navigation_new_fact, R.id.navigation_fact_list, R.id.navigation_fact_search))
+        bottomNavigationView.setupWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
-        newFactBtn.setOnClickListener{
-            chuckFactTextView.isVisible = false
-            randomFactNetworkCall()
-        }
+        bottomNavigationView.background = null
+        bottomNavigationView.menu.getItem(1).isEnabled = false
 
-    }
 
-    private fun randomFactNetworkCall() {
-        lifecycleScope.launchWhenCreated {
-            progressBar.isVisible = true
-            val response = try {
-                RetrofitInstance.api.getRandomFact()
-            } catch (e: IOException) {
-                Timber.d( "IOException, you might not have internet connection")
-                progressBar.isVisible = false
-                return@launchWhenCreated
-            } catch (e: HttpException) {
-                Timber.d( "HTTPException, you might not have internet connection")
-                progressBar.isVisible = false
-                return@launchWhenCreated
-            }
+        newFactFab.setOnClickListener {
 
-            if(response.isSuccessful && response.body() != null) {
-                chuckFactTextView.text = response.body()!!.fact
-            } else {
-                Timber.d("Response isn't successful")
-            }
-
-            progressBar.isVisible = false
-
-            if(!chuckFactTextView.isVisible) {
-                chuckFactTextView.isVisible = true
-            }
         }
     }
 }

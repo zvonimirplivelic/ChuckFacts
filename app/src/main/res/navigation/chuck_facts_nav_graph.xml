@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chuck_facts_navigation"
+    app:startDestination="@id/navigation_new_fact">
+
+    <fragment
+        android:id="@+id/navigation_new_fact"
+        android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.NewFactFragment"
+        android:label="New fact fragment"
+        tools:layout="@layout/new_fact_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_fact_list"
+        android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.FactListFragment"
+        android:label="Fact list fragment"
+        tools:layout="@layout/fact_list_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_fact_search"
+        android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.SearchFactsFragment"
+        android:label="Search facts fragment"
+        tools:layout="@layout/search_facts_fragment" />
+</navigation>
