@@ -19,8 +19,18 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment) {
     lateinit var chuckFactAdapter: ChuckFactAdapter
     lateinit var recyclerView: RecyclerView
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         recyclerView = view.findViewById(R.id.saved_facts_list_rv)
         viewModel = ((activity) as ChuckFactsActivity).viewModel

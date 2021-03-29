@@ -15,8 +15,6 @@ import com.zvonimirplivelic.chuckfacts.database.ChuckFactsDatabase
 import com.zvonimirplivelic.chuckfacts.repository.ChuckFactsRepository
 
 class ChuckFactsActivity : AppCompatActivity() {
-    private lateinit var bottomNavigationView: BottomNavigationView
-
     lateinit var viewModel: ChuckFactsViewModel
 
 
@@ -24,25 +22,24 @@ class ChuckFactsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
         val chuckFactsRepository = ChuckFactsRepository(ChuckFactsDatabase.invoke(this))
         val viewModelProviderFactory = ChuckFactsViewModelFactory(application, chuckFactsRepository)
         val randomFactFab: FloatingActionButton = findViewById(R.id.new_fact_fab)
 
-        viewModel = ViewModelProvider(this, viewModelProviderFactory).get(ChuckFactsViewModel::class.java)
-        bottomNavigationView = findViewById(R.id.bottom_nav_view)
-
-
+        viewModel =
+            ViewModelProvider(this, viewModelProviderFactory).get(ChuckFactsViewModel::class.java)
 
         val navController = findNavController(R.id.chuck_facts_navigation_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.navigation_new_fact, R.id.navigation_fact_list, R.id.navigation_fact_search))
-        bottomNavigationView.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, appBarConfiguration)
 
-        bottomNavigationView.background = null
-        bottomNavigationView.menu.getItem(1).isEnabled = false
+        bottomNavigationView.apply {
+            setupWithNavController(navController)
+            background = null
+            menu.getItem(1).isEnabled = false
+        }
 
         randomFactFab.setOnClickListener {
+            navController.navigate(R.id.navigation_new_fact)
             viewModel.getRandomFact()
         }
     }

@@ -21,6 +21,10 @@ class SearchFactsFragment : Fragment() {
 
         viewModel = ((activity) as ChuckFactsActivity).viewModel
 
-        return inflater.inflate(R.layout.search_facts_fragment, container, false)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 }

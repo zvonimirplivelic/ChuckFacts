@@ -16,7 +16,7 @@ import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsActivity
 import com.zvonimirplivelic.chuckfacts.util.Resource
 import timber.log.Timber
 
-class NewFactFragment : Fragment() {
+class NewFactFragment : Fragment(R.layout.new_fact_fragment) {
 
     private lateinit var viewModel: ChuckFactsViewModel
 
@@ -25,7 +25,7 @@ class NewFactFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.new_fact_fragment, container, false)
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

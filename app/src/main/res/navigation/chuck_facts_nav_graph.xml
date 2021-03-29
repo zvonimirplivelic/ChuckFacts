@@ -8,18 +8,15 @@
     <fragment
         android:id="@+id/navigation_new_fact"
         android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.NewFactFragment"
-        android:label="New fact fragment"
         tools:layout="@layout/new_fact_fragment" />
 
     <fragment
         android:id="@+id/navigation_fact_list"
         android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.FactListFragment"
-        android:label="Fact list fragment"
         tools:layout="@layout/fact_list_fragment" />
 
     <fragment
         android:id="@+id/navigation_fact_search"
         android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.SearchFactsFragment"
-        android:label="Search facts fragment"
         tools:layout="@layout/search_facts_fragment" />
 </navigation>
