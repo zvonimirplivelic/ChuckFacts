@@ -26,6 +26,8 @@ class ChuckFactsViewModel(
     val randomFact: MutableLiveData<Resource<ChuckFact>> = MutableLiveData()
     var randomFactResponse: ChuckFact? = null
 
+    val randomFactList: MutableLiveData<List<ChuckFact>> = MutableLiveData()
+
     init {
         getRandomFact()
     }
@@ -58,6 +60,7 @@ class ChuckFactsViewModel(
 
                 if (randomFactResponse == null) {
                     randomFactResponse == resultResponse
+                    saveRandomFact(resultResponse)
                 }
 
                 return Resource.Success(randomFactResponse ?: resultResponse)
@@ -65,6 +68,16 @@ class ChuckFactsViewModel(
         }
 
         return Resource.Error(response.message())
+    }
+
+    fun getSavedFacts() = chuckFactsRepository.getSavedFacts()
+
+    private fun saveRandomFact(chuckFact: ChuckFact) = viewModelScope.launch {
+        chuckFactsRepository.saveChuckFact(chuckFact)
+    }
+
+    fun deleteFact(chuckFact: ChuckFact) = viewModelScope.launch {
+        chuckFactsRepository.deleteChuckFact(chuckFact)
     }
 
     private fun hasInternetConnection(): Boolean {
