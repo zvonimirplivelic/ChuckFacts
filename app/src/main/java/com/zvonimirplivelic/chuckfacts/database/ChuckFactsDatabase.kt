@@ -12,7 +12,6 @@ import com.zvonimirplivelic.chuckfacts.model.ChuckFact
     exportSchema = false
 )
 abstract class ChuckFactsDatabase : RoomDatabase() {
-
     abstract fun getFactsDao(): ChuckFactsDao
 
     companion object {

@@ -8,18 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isVisible
 import com.zvonimirplivelic.chuckfacts.R
-import com.zvonimirplivelic.chuckfacts.ui.viewmodel.NewFactViewModel
+import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsViewModel
+import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsActivity
+import com.zvonimirplivelic.chuckfacts.util.Resource
+import timber.log.Timber
 
 class NewFactFragment : Fragment() {
-    private lateinit var chuckFactTextView: TextView
-    private lateinit var progressBar: ProgressBar
 
-    companion object {
-        fun newInstance() = NewFactFragment()
-    }
-
-    private lateinit var viewModel: NewFactViewModel
+    private lateinit var viewModel: ChuckFactsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,15 +30,35 @@ class NewFactFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        chuckFactTextView = view.findViewById(R.id.chuck_fact_tv)
-        progressBar = view.findViewById(R.id.progress_bar)
 
+        val chuckFactTextView: TextView = view.findViewById(R.id.chuck_fact_tv)
+        val progressBar: ProgressBar = view.findViewById(R.id.progress_bar)
+
+        viewModel = ((activity) as ChuckFactsActivity).viewModel
+
+        viewModel.randomFact.observe(viewLifecycleOwner, { response ->
+
+            when (response) {
+
+                is Resource.Success -> {
+                    progressBar.isVisible = false
+                    response.data?.let { factResponse ->
+                        chuckFactTextView.text = factResponse.value
+                    }
+                }
+
+                is Resource.Error -> {
+                    progressBar.isVisible = false
+                    response.message?.let { message ->
+                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
+
+                is Resource.Loading -> {
+                    progressBar.isVisible = true
+                }
+            }
+        })
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(NewFactViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
