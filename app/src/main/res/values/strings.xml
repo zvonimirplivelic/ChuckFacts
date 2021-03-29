@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ChuckFacts</string>
+    <string name="botnav_search_facts">Search facts</string>
+    <string name="botnav_saved_facts">Saved facts</string>
 </resources>
