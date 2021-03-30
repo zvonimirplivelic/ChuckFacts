@@ -3,9 +3,12 @@ package com.zvonimirplivelic.chuckfacts.ui
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities
+import android.net.NetworkCapabilities.*
 import android.os.Build
 import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -26,6 +29,9 @@ class ChuckFactsViewModel(
     val randomFact: MutableLiveData<Resource<ChuckFact>> = MutableLiveData()
     var randomFactResponse: ChuckFact? = null
 
+    val searchFact: MutableLiveData<Resource<ChuckFact>> = MutableLiveData()
+    var searchFactResponse: ChuckFact? = null
+
     val randomFactList: MutableLiveData<List<ChuckFact>> = MutableLiveData()
 
     init {
@@ -34,6 +40,10 @@ class ChuckFactsViewModel(
 
     fun getRandomFact() = viewModelScope.launch {
         safeRandomFactCall()
+    }
+
+    fun getSearchedFact(searchString: String) = viewModelScope.launch {
+        safeSearchFactsCall(searchString)
     }
 
     private suspend fun safeRandomFactCall() {
@@ -54,6 +64,24 @@ class ChuckFactsViewModel(
         }
     }
 
+    private suspend fun safeSearchFactsCall(searchString: String) {
+        searchFact.postValue(Resource.Loading())
+        try {
+            if (hasInternetConnection()) {
+
+                val response = chuckFactsRepository.searchForFact(searchString)
+                searchFact.postValue(handleSearchFactResponse(response))
+            } else {
+                searchFact.postValue(Resource.Error("No internet connection"))
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> searchFact.postValue(Resource.Error("Network Failure"))
+                else -> searchFact.postValue(Resource.Error("Conversion Error"))
+            }
+        }
+    }
+
     private fun handleRandomFactResponse(response: Response<ChuckFact>): Resource<ChuckFact> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
@@ -64,6 +92,22 @@ class ChuckFactsViewModel(
                 }
 
                 return Resource.Success(randomFactResponse ?: resultResponse)
+            }
+        }
+
+        return Resource.Error(response.message())
+    }
+
+
+    private fun handleSearchFactResponse(response: Response<ChuckFact>): Resource<ChuckFact> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+
+                if (searchFactResponse == null) {
+                    searchFactResponse == resultResponse
+                }
+
+                return Resource.Success(searchFactResponse ?: resultResponse)
             }
         }
 
@@ -90,17 +134,18 @@ class ChuckFactsViewModel(
             val capabilities =
                 connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
             return when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                capabilities.hasTransport(TRANSPORT_WIFI) -> true
+                capabilities.hasTransport(TRANSPORT_CELLULAR) -> true
+                capabilities.hasTransport(TRANSPORT_ETHERNET) -> true
                 else -> false
             }
         } else {
+
             connectivityManager.activeNetworkInfo?.run {
                 return when (type) {
-                    ConnectivityManager.TYPE_WIFI -> true
-                    ContactsContract.CommonDataKinds.Email.TYPE_MOBILE -> true
-                    ConnectivityManager.TYPE_ETHERNET -> true
+                    TYPE_WIFI -> true
+                    Email.TYPE_MOBILE -> true
+                    TYPE_ETHERNET -> true
                     else -> false
                 }
             }
