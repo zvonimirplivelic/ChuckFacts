@@ -59,7 +59,7 @@ class SearchFactsFragment : Fragment(R.layout.search_facts_fragment) {
                 editableString?.let {
                     if(editableString.toString().isNotEmpty()) {
                         viewModel.getSearchedFact(editableString.toString())
-                    } 
+                    }
                 }
             }
         }

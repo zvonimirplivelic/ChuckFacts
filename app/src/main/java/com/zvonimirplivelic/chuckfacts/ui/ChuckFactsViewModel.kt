@@ -42,7 +42,6 @@ class ChuckFactsViewModel(
 
     fun getSearchedFact(searchString: String) = viewModelScope.launch {
         safeSearchFactsCall(searchString)
-        Timber.d("sS response $searchString")
     }
 
     private suspend fun safeRandomFactCall() {
@@ -69,12 +68,10 @@ class ChuckFactsViewModel(
             if (hasInternetConnection()) {
                 val response = chuckFactsRepository.searchForFact(searchString)
                 searchFact.postValue(handleSearchFactResponse(response))
-                Timber.d("sSFC response: ${searchFact.value.toString()}")
             } else {
                 searchFact.postValue(Resource.Error("No internet connection"))
             }
         } catch (t: Throwable) {
-            Timber.d("sSFC error: $t")
 
             when (t) {
                 is IOException -> searchFact.postValue(Resource.Error("Network Failure"))
@@ -88,7 +85,7 @@ class ChuckFactsViewModel(
             response.body()?.let { resultResponse ->
 
                 if (randomFactResponse == null) {
-                    randomFactResponse == resultResponse
+                    randomFactResponse = resultResponse
                     saveFact(resultResponse)
                 }
 
@@ -104,16 +101,12 @@ class ChuckFactsViewModel(
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
 
-                if (searchFactResponse == null) {
-                    searchFactResponse = resultResponse
-                }
+                searchFactResponse = resultResponse
 
-                Timber.d("hSFR response: $searchFactResponse")
                 return Resource.Success(searchFactResponse ?: resultResponse)
             }
         }
 
-        Timber.d("hSFR error: ${response.message()}")
         return Resource.Error(response.message())
     }
 
