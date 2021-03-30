@@ -37,7 +37,13 @@
         android:id="@+id/new_fact_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#8E5000"
+        android:padding="8dp"
         android:contentDescription="New random fact button"
-        android:src="@drawable/ic_new_fact"
-        app:layout_anchor="@id/bottomAppBar" />
+        android:scaleType="center"
+        android:src="@drawable/ic_new_chuck_fact"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/bottomAppBar"
+        app:maxImageSize="48dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.chuckfacts.R
 import com.zvonimirplivelic.chuckfacts.model.ChuckFact
 
-class ChuckFactAdapter : RecyclerView.Adapter<ChuckFactAdapter.ChuckFactViewHolder>() {
-
-
-    inner class ChuckFactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+class ChuckFactAdapter(
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<ChuckFactAdapter.ChuckFactViewHolder>() {
 
     private val differCallback = object : DiffUtil.ItemCallback<ChuckFact>() {
         override fun areItemsTheSame(oldItem: ChuckFact, newItem: ChuckFact): Boolean {
@@ -44,8 +43,29 @@ class ChuckFactAdapter : RecyclerView.Adapter<ChuckFactAdapter.ChuckFactViewHold
             val tvChuckFactListItem: TextView =
                 holder.itemView.findViewById(R.id.chuck_fact_list_item_tv)
             tvChuckFactListItem.text = chuckFact.value
+
         }
     }
 
     override fun getItemCount(): Int = differ.currentList.size
+
+    inner class ChuckFactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if(position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
 }
+

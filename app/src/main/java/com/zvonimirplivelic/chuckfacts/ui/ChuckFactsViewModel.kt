@@ -7,6 +7,7 @@ import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
 import android.provider.ContactsContract.CommonDataKinds.Email
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -31,10 +32,6 @@ class ChuckFactsViewModel(
 
     val searchFact: MutableLiveData<Resource<ChuckFactList>> = MutableLiveData()
     var searchFactResponse: ChuckFactList? = null
-
-    init {
-        getRandomFact()
-    }
 
     fun getRandomFact() = viewModelScope.launch {
         safeRandomFactCall()
@@ -84,10 +81,8 @@ class ChuckFactsViewModel(
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
 
-                if (randomFactResponse == null) {
                     randomFactResponse = resultResponse
                     saveFact(resultResponse)
-                }
 
                 return Resource.Success(randomFactResponse ?: resultResponse)
             }
@@ -112,7 +107,7 @@ class ChuckFactsViewModel(
 
     fun getSavedFacts() = chuckFactsRepository.getSavedFacts()
 
-    private fun saveFact(chuckFact: ChuckFact) = viewModelScope.launch {
+    fun saveFact(chuckFact: ChuckFact) = viewModelScope.launch {
         chuckFactsRepository.saveChuckFact(chuckFact)
     }
 

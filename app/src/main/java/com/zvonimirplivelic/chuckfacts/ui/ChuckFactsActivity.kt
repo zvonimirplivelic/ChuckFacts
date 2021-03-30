@@ -40,7 +40,6 @@ class ChuckFactsActivity : AppCompatActivity() {
 
         randomFactFab.setOnClickListener {
             navController.navigate(R.id.navigation_new_fact)
-            viewModel.getRandomFact()
         }
     }
 }
