@@ -1,6 +1,5 @@
 package com.zvonimirplivelic.chuckfacts.ui.fragments
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import com.zvonimirplivelic.chuckfacts.R
 import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsViewModel
 import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsActivity
 import com.zvonimirplivelic.chuckfacts.util.Resource
-import timber.log.Timber
 
 class NewFactFragment : Fragment(R.layout.new_fact_fragment) {
 
@@ -25,6 +23,9 @@ class NewFactFragment : Fragment(R.layout.new_fact_fragment) {
         savedInstanceState: Bundle?
     ): View? {
 
+        viewModel = ((activity) as ChuckFactsActivity).viewModel
+        viewModel.getRandomFact()
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -32,9 +33,7 @@ class NewFactFragment : Fragment(R.layout.new_fact_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         val chuckFactTextView: TextView = view.findViewById(R.id.chuck_fact_tv)
-        val progressBar: ProgressBar = view.findViewById(R.id.progress_bar)
-
-        viewModel = ((activity) as ChuckFactsActivity).viewModel
+        val progressBar: ProgressBar = view.findViewById(R.id.random_progress_bar)
 
         viewModel.randomFact.observe(viewLifecycleOwner, { response ->
 
