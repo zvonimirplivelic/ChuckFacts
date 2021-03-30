@@ -23,7 +23,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/random_progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="128dp"

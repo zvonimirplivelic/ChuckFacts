@@ -24,6 +24,7 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ((activity) as ChuckFactsActivity).viewModel
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -31,14 +32,10 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         recyclerView = view.findViewById(R.id.saved_facts_list_rv)
-        viewModel = ((activity) as ChuckFactsActivity).viewModel
-
-
         setupRecyclerView()
 
-        viewModel.getSavedFacts().observe(viewLifecycleOwner, Observer { chuckFacts ->
+        viewModel.getSavedFacts().observe(viewLifecycleOwner, { chuckFacts ->
             chuckFactAdapter.differ.submitList(chuckFacts)
         })
     }
