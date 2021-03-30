@@ -120,6 +120,10 @@ class ChuckFactsViewModel(
         chuckFactsRepository.deleteChuckFact(chuckFact)
     }
 
+    fun deleteAllFacts() = viewModelScope.launch {
+        chuckFactsRepository.clearFactTable()
+    }
+
     private fun hasInternetConnection(): Boolean {
         val connectivityManager = getApplication<ChuckFactsApplication>().getSystemService(
             Context.CONNECTIVITY_SERVICE
