@@ -45,7 +45,24 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
         })
 
         clearListBtn.setOnClickListener {
-            lifecycleScope.launch { clearAllFacts() }
+            val alertDialog: AlertDialog? = activity?.let {
+                val builder = AlertDialog.Builder(it)
+
+                builder.apply {
+                    setTitle("Delete All Facts")
+                    setMessage("Do you want to delete all Chuck Facts?")
+                    setIcon(R.drawable.ic_new_chuck_fact)
+                    setPositiveButton("Yes") { dialog, _ ->
+                        lifecycleScope.launch { clearAllFacts() }
+                        dialog.dismiss()
+                    }
+                    setNegativeButton("No") { dialog, _ ->
+                        dialog.cancel()
+                    }
+                }
+                builder?.create()
+            }
+            alertDialog?.show()
         }
     }
 
