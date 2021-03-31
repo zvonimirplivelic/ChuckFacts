@@ -13,6 +13,9 @@ interface ChuckFactsDao {
     @Delete
     suspend fun deleteFact(chuckFact: ChuckFact)
 
+    @Query("DELETE FROM chuck_facts")
+    suspend fun deleteAllFacts()
+
     @Query("SELECT * FROM chuck_facts")
     fun getAllFacts(): LiveData<List<ChuckFact>>
 }

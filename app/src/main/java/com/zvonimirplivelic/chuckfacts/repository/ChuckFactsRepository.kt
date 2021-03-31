@@ -20,4 +20,6 @@ class ChuckFactsRepository(private val db: ChuckFactsDatabase) {
 
     suspend fun deleteChuckFact(chuckFact: ChuckFact) =
         db.getFactsDao().deleteFact(chuckFact)
+
+    suspend fun clearFactTable() = db.getFactsDao().deleteAllFacts()
 }
