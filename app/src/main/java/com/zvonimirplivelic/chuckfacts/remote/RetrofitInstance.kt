@@ -1,9 +1,9 @@
 package com.zvonimirplivelic.chuckfacts.remote
 
+import com.zvonimirplivelic.chuckfacts.util.Constants.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://api.chucknorris.io/jokes/"
 
 object RetrofitInstance {
 

@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.zvonimirplivelic.chuckfacts.model.ChuckFact
+import com.zvonimirplivelic.chuckfacts.util.Constants.DATABASE_NAME
 
 @Database(
     entities = [ChuckFact::class],
@@ -29,7 +30,7 @@ abstract class ChuckFactsDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 ChuckFactsDatabase::class.java,
-                "chuck_facts_db"
+                DATABASE_NAME
             ).build()
     }
 }
