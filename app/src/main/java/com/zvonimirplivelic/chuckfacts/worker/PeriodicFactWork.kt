@@ -7,33 +7,39 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.work.CoroutineWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.zvonimirplivelic.chuckfacts.R
+import com.zvonimirplivelic.chuckfacts.database.ChuckFactsDatabase
+import com.zvonimirplivelic.chuckfacts.repository.ChuckFactsRepository
 import com.zvonimirplivelic.chuckfacts.util.Constants
 import com.zvonimirplivelic.chuckfacts.util.Constants.FACT_NOTIFICATION_CHANNEL_ID
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class PeriodicFactWork(context: Context, workerParameters: WorkerParameters) :
-    Worker(context, workerParameters) {
+    CoroutineWorker(context, workerParameters) {
 
-    private val notification = NotificationCompat.Builder(context, FACT_NOTIFICATION_CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_new_chuck_fact)
-        .setContentTitle("New Chuck Fact")
-        .setContentText(inputData.getString(Constants.RANDOM_FACT_NOTIFICATION_DATA))
-        .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .build()
-
+    private val chuckFactsRepository = ChuckFactsRepository(ChuckFactsDatabase.invoke(applicationContext))
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         try {
+
+            val notification = NotificationCompat.Builder(applicationContext, FACT_NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_new_chuck_fact)
+                .setContentTitle("New Chuck Fact")
+                .setContentText(getNotificationString())
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build()
 
             createNotificationChannel()
             with(NotificationManagerCompat.from(applicationContext)) {
                 notify(1, notification)
 
-                Timber.d("Notification text: ${ inputData.getString(Constants.RANDOM_FACT_NOTIFICATION_DATA)}")
+                Timber.d("Notification text: ${getNotificationString()}")
             }
         } catch (e: Exception) {
 
@@ -56,4 +62,11 @@ class PeriodicFactWork(context: Context, workerParameters: WorkerParameters) :
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
     }
+
+    private suspend fun getNotificationString(): String {
+        return withContext(Dispatchers.IO) {
+            chuckFactsRepository.getRandomChuckFact().body()!!.value
+        }
+    }
+
 }
