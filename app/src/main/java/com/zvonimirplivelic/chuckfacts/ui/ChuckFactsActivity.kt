@@ -1,7 +1,9 @@
 package com.zvonimirplivelic.chuckfacts.ui
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.Constraints
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +21,7 @@ import com.zvonimirplivelic.chuckfacts.worker.PeriodicFactWork
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 class ChuckFactsActivity : AppCompatActivity() {
@@ -52,6 +55,7 @@ class ChuckFactsActivity : AppCompatActivity() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupPeriodicFactRequest() {
 
         val constraints = androidx.work.Constraints.Builder()
@@ -59,13 +63,12 @@ class ChuckFactsActivity : AppCompatActivity() {
             .build()
 
         val periodicFactRequest =
-            PeriodicWorkRequestBuilder<PeriodicFactWork>(1, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<PeriodicFactWork>(15, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
 
         WorkManager.getInstance()
             .enqueue(periodicFactRequest)
 
-        Timber.d("Work Request made")
     }
 }
