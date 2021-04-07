@@ -45,7 +45,6 @@ class PeriodicFactWork(context: Context, workerParameters: WorkerParameters) :
             createNotificationChannel()
             with(NotificationManagerCompat.from(applicationContext)) {
                 notify(1, notification)
-
             }
         } catch (e: Exception) {
 
@@ -60,18 +59,20 @@ class PeriodicFactWork(context: Context, workerParameters: WorkerParameters) :
             "New Chuck Fact",
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "This is your MainActivity's test channel"
+            description = "Fact notification channel"
         }
 
         val notificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+
+        Timber.d("Created notif")
     }
 
     private suspend fun getNotificationFactResponse(): Response<ChuckFact> {
         val factNotificationResponse =
             withContext(Dispatchers.IO) { chuckFactsRepository.getRandomChuckFact() }
-
+        Timber.d("Network call ${factNotificationResponse.body()!!.value.toString()}")
         chuckFactsRepository.saveChuckFact(factNotificationResponse.body()!!)
 
         return factNotificationResponse

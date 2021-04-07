@@ -24,6 +24,7 @@ import timber.log.Timber
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 
+@RequiresApi(Build.VERSION_CODES.O)
 class ChuckFactsActivity : AppCompatActivity() {
     lateinit var viewModel: ChuckFactsViewModel
 
@@ -55,20 +56,19 @@ class ChuckFactsActivity : AppCompatActivity() {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupPeriodicFactRequest() {
 
-        val constraints = androidx.work.Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
         val periodicFactRequest =
-            PeriodicWorkRequestBuilder<PeriodicFactWork>(15, TimeUnit.MINUTES)
-                .setConstraints(constraints)
+            PeriodicWorkRequestBuilder<PeriodicFactWork>(24, TimeUnit.HOURS)
                 .build()
 
         WorkManager.getInstance()
-            .enqueue(periodicFactRequest)
+            .enqueueUniquePeriodicWork(
+                "Periodic Fact Notification",
+                ExistingPeriodicWorkPolicy.REPLACE,
+                periodicFactRequest
+            )
 
+        Timber.d("Work request made")
     }
 }
