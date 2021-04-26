@@ -1,10 +1,12 @@
 package com.zvonimirplivelic.chuckfacts.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -34,6 +36,7 @@ class NewFactFragment : Fragment(R.layout.new_fact_fragment) {
 
         val chuckFactTextView: TextView = view.findViewById(R.id.chuck_fact_tv)
         val progressBar: ProgressBar = view.findViewById(R.id.random_progress_bar)
+        val shareImageView: ImageView = view.findViewById(R.id.share_fact_iv)
 
         viewModel.randomFact.observe(viewLifecycleOwner, { response ->
 
@@ -59,5 +62,16 @@ class NewFactFragment : Fragment(R.layout.new_fact_fragment) {
                 }
             }
         })
+
+        shareImageView.setOnClickListener {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, chuckFactTextView.text)
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, "Share this fact")
+            startActivity(shareIntent)
+        }
     }
 }
