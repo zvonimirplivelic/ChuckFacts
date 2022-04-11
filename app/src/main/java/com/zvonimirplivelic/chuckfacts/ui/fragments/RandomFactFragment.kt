@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.zvonimirplivelic.chuckfacts.R
@@ -37,9 +38,11 @@ class SingleFactFragment : Fragment() {
 
         var storedResponse: ChuckFact? = null
         val chuckFactTextView: TextView = view.findViewById(R.id.chuck_fact_tv)
+        val updatedFactTextView: TextView = view.findViewById(R.id.tv_updated_time)
+        val createdFactTextView: TextView = view.findViewById(R.id.tv_created_time)
         val progressBar: ProgressBar = view.findViewById(R.id.random_progress_bar)
-        val shareImageView: ImageView = view.findViewById(R.id.share_fact_iv)
-        val storeImageView: ImageView = view.findViewById(R.id.store_fact_iv)
+        val shareImageView: ImageView = view.findViewById(R.id.iv_share_fact)
+        val storeImageView: ImageView = view.findViewById(R.id.iv_store_fact)
 
         viewModel.randomFact.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -48,6 +51,8 @@ class SingleFactFragment : Fragment() {
                     response.data?.let { factResponse ->
                         storedResponse = factResponse
                         chuckFactTextView.text = storedResponse!!.value
+                        updatedFactTextView.text = "Updated at: ${storedResponse!!.updatedAt}"
+                        createdFactTextView.text = "Created at: ${storedResponse!!.createdAt}"
                     }
                 }
 
@@ -66,7 +71,23 @@ class SingleFactFragment : Fragment() {
         }
 
         storeImageView.setOnClickListener {
-            viewModel.saveFact(storedResponse!!)
+            val builder = AlertDialog.Builder(requireContext())
+            builder.apply {
+                setTitle("Save Fact")
+                setMessage("Do you want to save this fact?")
+                setPositiveButton("Save fact") { _, _ ->
+                    viewModel.saveFact(storedResponse!!)
+                    Toast.makeText(
+                        context,
+                        "Fact saved",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                setNegativeButton("Cancel") { _, _ ->
+
+                }
+                create().show()
+            }
         }
 
         shareImageView.setOnClickListener {
