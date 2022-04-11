@@ -16,8 +16,8 @@ import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsViewModel
 import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsActivity
 import com.zvonimirplivelic.chuckfacts.util.Resource
 
-class NewFactFragment : Fragment(R.layout.new_fact_fragment) {
-
+class SingleFactFragment : Fragment(R.layout.single_fact_fragment) {
+    private val args = arguments?.let { SingleFactFragmentArgs.fromBundle(it).factString }
     private lateinit var viewModel: ChuckFactsViewModel
 
     override fun onCreateView(
@@ -25,8 +25,12 @@ class NewFactFragment : Fragment(R.layout.new_fact_fragment) {
         savedInstanceState: Bundle?
     ): View? {
 
+
         viewModel = ((activity) as ChuckFactsActivity).viewModel
-        viewModel.getRandomFact()
+//
+//        if(args.isNullOrEmpty()) {
+//            viewModel.getRandomFact()
+//        }
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -39,7 +43,6 @@ class NewFactFragment : Fragment(R.layout.new_fact_fragment) {
         val shareImageView: ImageView = view.findViewById(R.id.share_fact_iv)
 
         viewModel.randomFact.observe(viewLifecycleOwner, { response ->
-
             when (response) {
 
                 is Resource.Success -> {

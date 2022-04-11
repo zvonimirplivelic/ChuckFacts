@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="75dp"
-    tools:context=".ui.fragments.NewFactFragment">
+    tools:context=".ui.fragments.SingleFactFragment">
 
     <ImageView
         android:id="@+id/share_fact_iv"

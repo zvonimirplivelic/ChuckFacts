@@ -12,7 +12,6 @@ class ChuckFactsRepository(private val db: ChuckFactsDatabase) {
     suspend fun searchForFact(searchString: String) =
         RetrofitInstance.api.searchForFact(searchString)
 
-
     fun getSavedFacts() = db.getFactsDao().getAllFacts()
 
     suspend fun saveChuckFact(chuckFact: ChuckFact) =

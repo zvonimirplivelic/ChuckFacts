@@ -63,8 +63,7 @@ class SearchFactsFragment : Fragment(R.layout.search_facts_fragment),
             }
         }
 
-
-        viewModel.searchFact.observe(viewLifecycleOwner, { response ->
+        viewModel.searchFact.observe(viewLifecycleOwner) { response ->
             when (response) {
 
                 is Resource.Success -> {
@@ -90,7 +89,7 @@ class SearchFactsFragment : Fragment(R.layout.search_facts_fragment),
                     progressBar.visibility = View.VISIBLE
                 }
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {

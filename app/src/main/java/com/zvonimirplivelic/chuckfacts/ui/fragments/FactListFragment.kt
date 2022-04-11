@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.chuckfacts.R
@@ -40,9 +41,9 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
         recyclerView = view.findViewById(R.id.saved_facts_list_rv)
         setupRecyclerView()
 
-        viewModel.getSavedFacts().observe(viewLifecycleOwner, { chuckFacts ->
+        viewModel.getSavedFacts().observe(viewLifecycleOwner) { chuckFacts ->
             chuckFactAdapter.differ.submitList(chuckFacts)
-        })
+        }
 
         clearListBtn.setOnClickListener {
             val alertDialog: AlertDialog? = activity?.let {
@@ -60,7 +61,7 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
                         dialog.cancel()
                     }
                 }
-                builder?.create()
+                builder.create()
             }
             alertDialog?.show()
         }
@@ -79,23 +80,28 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
     }
 
     override fun onItemClick(position: Int) {
-        val alertDialog: AlertDialog? = activity?.let {
-            val builder = AlertDialog.Builder(it)
+        val clickedFactString = chuckFactAdapter.differ.currentList[position]
 
-            builder.apply {
-                setTitle("Delete Fact")
-                setMessage("Do you want to delete this Chuck Fact?")
-                setIcon(R.drawable.ic_new_chuck_fact)
-                setPositiveButton("Yes") { dialog, _ ->
-                    viewModel.deleteFact(chuckFactAdapter.differ.currentList[position])
-                    dialog.dismiss()
-                }
-                setNegativeButton("No") { dialog, _ ->
-                    dialog.cancel()
-                }
-            }
-            builder?.create()
-        }
-        alertDialog?.show()
+        val action = FactListFragmentDirections.factListToSingleFact(clickedFactString.value)
+        requireView().findNavController().navigate(action)
     }
+//        val alertDialog: AlertDialog? = activity?.let {
+//            val builder = AlertDialog.Builder(it)
+//
+//            builder.apply {
+//                setTitle("Delete Fact")
+//                setMessage("Do you want to delete this Chuck Fact?")
+//                setIcon(R.drawable.ic_new_chuck_fact)
+//                setPositiveButton("Yes") { dialog, _ ->
+//                    viewModel.deleteFact(chuckFactAdapter.differ.currentList[position])
+//                    dialog.dismiss()
+//                }
+//                setNegativeButton("No") { dialog, _ ->
+//                    dialog.cancel()
+//                }
+//            }
+//            builder?.create()
+//        }
+//        alertDialog?.show()
+//    }
 }

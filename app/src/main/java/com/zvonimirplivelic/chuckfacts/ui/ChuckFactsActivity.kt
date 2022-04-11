@@ -4,10 +4,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.Constraints
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
@@ -16,12 +13,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zvonimirplivelic.chuckfacts.R
 import com.zvonimirplivelic.chuckfacts.database.ChuckFactsDatabase
 import com.zvonimirplivelic.chuckfacts.repository.ChuckFactsRepository
-import com.zvonimirplivelic.chuckfacts.util.Constants
 import com.zvonimirplivelic.chuckfacts.worker.PeriodicFactWork
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -40,7 +33,7 @@ class ChuckFactsActivity : AppCompatActivity() {
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory).get(ChuckFactsViewModel::class.java)
 
-        setupPeriodicFactRequest()
+//        setupPeriodicFactRequest()
 
         val navController = findNavController(R.id.chuck_facts_navigation_host_fragment)
 
@@ -51,24 +44,24 @@ class ChuckFactsActivity : AppCompatActivity() {
         }
 
         randomFactFab.setOnClickListener {
-            navController.navigate(R.id.navigation_new_fact)
+            navController.navigate(R.id.navigation_single_fact)
         }
 
     }
 
-    private fun setupPeriodicFactRequest() {
-
-        val periodicFactRequest =
-            PeriodicWorkRequestBuilder<PeriodicFactWork>(24, TimeUnit.HOURS)
-                .build()
-
-        WorkManager.getInstance()
-            .enqueueUniquePeriodicWork(
-                "Periodic Fact Notification",
-                ExistingPeriodicWorkPolicy.REPLACE,
-                periodicFactRequest
-            )
-
-        Timber.d("Work request made")
-    }
+//    private fun setupPeriodicFactRequest() {
+//
+//        val periodicFactRequest =
+//            PeriodicWorkRequestBuilder<PeriodicFactWork>(24, TimeUnit.HOURS)
+//                .build()
+//
+//        WorkManager.getInstance()
+//            .enqueueUniquePeriodicWork(
+//                "Periodic Fact Notification",
+//                ExistingPeriodicWorkPolicy.REPLACE,
+//                periodicFactRequest
+//            )
+//
+//        Timber.d("Work request made")
+//    }
 }

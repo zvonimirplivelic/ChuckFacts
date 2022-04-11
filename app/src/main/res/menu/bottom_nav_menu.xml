@@ -6,7 +6,7 @@
         android:title="@string/botnav_search_facts" />
 
     <item
-        android:id="@+id/navigation_new_fact"
+        android:id="@+id/navigation_single_fact"
         android:title="" />
 
     <item
