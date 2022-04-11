@@ -1,10 +1,11 @@
 package com.zvonimirplivelic.chuckfacts.repository
 
+import com.zvonimirplivelic.chuckfacts.database.ChuckFactsDao
 import com.zvonimirplivelic.chuckfacts.database.ChuckFactsDatabase
 import com.zvonimirplivelic.chuckfacts.model.ChuckFact
 import com.zvonimirplivelic.chuckfacts.remote.RetrofitInstance
 
-class ChuckFactsRepository(private val db: ChuckFactsDatabase) {
+class ChuckFactsRepository(private val chuckDao: ChuckFactsDao) {
 
     suspend fun getRandomChuckFact() =
         RetrofitInstance.api.getRandomFact()
@@ -12,13 +13,13 @@ class ChuckFactsRepository(private val db: ChuckFactsDatabase) {
     suspend fun searchForFact(searchString: String) =
         RetrofitInstance.api.searchForFact(searchString)
 
-    fun getSavedFacts() = db.getFactsDao().getAllFacts()
+    fun getSavedFacts() = chuckDao.getAllFacts()
 
     suspend fun saveChuckFact(chuckFact: ChuckFact) =
-        db.getFactsDao().updateOrInsertFact(chuckFact)
+        chuckDao.updateOrInsertFact(chuckFact)
 
     suspend fun deleteChuckFact(chuckFact: ChuckFact) =
-        db.getFactsDao().deleteFact(chuckFact)
+        chuckDao.deleteFact(chuckFact)
 
-    suspend fun clearFactTable() = db.getFactsDao().deleteAllFacts()
+    suspend fun clearFactTable() = chuckDao.deleteAllFacts()
 }

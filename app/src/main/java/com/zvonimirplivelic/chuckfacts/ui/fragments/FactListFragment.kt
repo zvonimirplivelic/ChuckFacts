@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,7 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ((activity) as ChuckFactsActivity).viewModel
+        viewModel = ViewModelProvider(this)[ChuckFactsViewModel::class.java]
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -82,8 +83,8 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
     override fun onItemClick(position: Int) {
         val clickedFactString = chuckFactAdapter.differ.currentList[position]
 
-        val action = FactListFragmentDirections.factListToSingleFact(clickedFactString.value)
-        requireView().findNavController().navigate(action)
+//        val action = FactListFragmentDirections.factListToSingleFact(clickedFactString.value)
+//        requireView().findNavController().navigate(action)
     }
 //        val alertDialog: AlertDialog? = activity?.let {
 //            val builder = AlertDialog.Builder(it)

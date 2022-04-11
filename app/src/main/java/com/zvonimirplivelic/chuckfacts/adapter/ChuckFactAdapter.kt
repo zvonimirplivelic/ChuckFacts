@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.chuckfacts.R
 import com.zvonimirplivelic.chuckfacts.model.ChuckFact
-import com.zvonimirplivelic.chuckfacts.ui.fragments.FactListFragmentDirections
 
 class ChuckFactAdapter(
     private val listener: OnItemClickListener

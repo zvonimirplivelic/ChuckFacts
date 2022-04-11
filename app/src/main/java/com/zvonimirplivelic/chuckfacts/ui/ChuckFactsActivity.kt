@@ -19,19 +19,14 @@ import java.util.concurrent.TimeUnit
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ChuckFactsActivity : AppCompatActivity() {
-    lateinit var viewModel: ChuckFactsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val chuckFactsRepository = ChuckFactsRepository(ChuckFactsDatabase.invoke(this))
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
-        val viewModelProviderFactory = ChuckFactsViewModelFactory(application, chuckFactsRepository)
         val randomFactFab: FloatingActionButton = findViewById(R.id.new_fact_fab)
 
-        viewModel =
-            ViewModelProvider(this, viewModelProviderFactory).get(ChuckFactsViewModel::class.java)
 
 //        setupPeriodicFactRequest()
 

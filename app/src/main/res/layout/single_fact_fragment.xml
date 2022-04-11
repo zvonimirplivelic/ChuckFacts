@@ -8,12 +8,12 @@
     tools:context=".ui.fragments.SingleFactFragment">
 
     <ImageView
-        android:id="@+id/share_fact_iv"
+        android:id="@+id/store_fact_iv"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_share"
-        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/ic_store"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

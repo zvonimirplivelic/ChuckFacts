@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.chuckfacts.R
@@ -36,7 +37,7 @@ class SearchFactsFragment : Fragment(R.layout.search_facts_fragment),
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = ((activity) as ChuckFactsActivity).viewModel
+        viewModel = ViewModelProvider(this)[ChuckFactsViewModel::class.java]
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
