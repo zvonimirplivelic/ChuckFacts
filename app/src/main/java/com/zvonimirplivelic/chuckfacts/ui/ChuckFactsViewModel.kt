@@ -114,12 +114,12 @@ class ChuckFactsViewModel(
     fun saveFact(chuckFact: ChuckFact) = viewModelScope.launch {
         val currentTime: Long = Calendar.getInstance().timeInMillis
 
-        chuckFact.savedAt = currentTime.toString()
+        chuckFact.savedAt = currentTime
         chuckFactsRepository.saveChuckFact(chuckFact)
     }
 
-    fun deleteFact(chuckFact: ChuckFact) = viewModelScope.launch {
-        chuckFactsRepository.deleteChuckFact(chuckFact)
+    fun deleteFact(factId: String) = viewModelScope.launch {
+        chuckFactsRepository.deleteChuckFact(factId)
     }
 
     fun deleteAllFacts() = viewModelScope.launch {

@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChuckFacts">
-        <activity android:name=".ui.ChuckFactsActivity">
+        <activity android:name=".ui.ChuckFactsActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

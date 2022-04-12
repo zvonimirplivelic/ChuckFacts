@@ -10,8 +10,9 @@ interface ChuckFactsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateOrInsertFact(chuckFact: ChuckFact)
 
-    @Delete
-    suspend fun deleteFact(chuckFact: ChuckFact)
+    @Query("DELETE FROM chuck_facts WHERE id = :factId")
+    fun deleteFact(factId: String)
+
 
     @Query("DELETE FROM chuck_facts")
     suspend fun deleteAllFacts()

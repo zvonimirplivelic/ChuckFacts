@@ -9,7 +9,7 @@ import com.zvonimirplivelic.chuckfacts.util.Constants.DATABASE_NAME
 
 @Database(
     entities = [ChuckFact::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class ChuckFactsDatabase : RoomDatabase() {

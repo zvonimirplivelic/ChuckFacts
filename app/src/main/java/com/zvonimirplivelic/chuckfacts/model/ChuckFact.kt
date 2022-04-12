@@ -1,10 +1,14 @@
 package com.zvonimirplivelic.chuckfacts.model
 
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 @Entity(tableName = "chuck_facts")
 data class ChuckFact(
     @PrimaryKey(autoGenerate = false)
@@ -18,5 +22,5 @@ data class ChuckFact(
     val url: String,
     @SerializedName("value")
     val value: String,
-    var savedAt: String
-)
+    var savedAt: Long
+): Parcelable

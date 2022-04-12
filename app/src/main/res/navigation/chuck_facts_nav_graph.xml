@@ -3,22 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/chuck_facts_navigation"
-    app:startDestination="@id/navigation_single_fact">
+    app:startDestination="@id/navigation_random_fact">
 
     <fragment
-        android:id="@+id/navigation_single_fact"
-        android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.SingleFactFragment"
-        tools:layout="@layout/single_fact_fragment">
-    </fragment>
+        android:id="@+id/navigation_random_fact"
+        android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.RandomFactFragment"
+        tools:layout="@layout/fragment_random_fact" />
 
     <fragment
         android:id="@+id/navigation_fact_list"
         android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.FactListFragment"
-        tools:layout="@layout/fact_list_fragment">
+        tools:layout="@layout/fragment_fact_list">
+        <action
+            android:id="@+id/action_navigation_fact_list_to_storedFactFragment"
+            app:destination="@id/storedFactFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/storedFactFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_fact_search"
         android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.SearchFactsFragment"
         tools:layout="@layout/search_facts_fragment" />
+    <fragment
+        android:id="@+id/storedFactFragment"
+        android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.StoredFactFragment"
+        tools:layout="@layout/fragment_stored_fact">
+        <argument
+            android:name="selectedFact"
+            app:argType="com.zvonimirplivelic.chuckfacts.model.ChuckFact" />
+    </fragment>
 </navigation>

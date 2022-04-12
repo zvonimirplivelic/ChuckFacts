@@ -18,14 +18,14 @@ import com.zvonimirplivelic.chuckfacts.model.ChuckFact
 import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsViewModel
 import com.zvonimirplivelic.chuckfacts.util.Resource
 
-class SingleFactFragment : Fragment() {
+class RandomFactFragment : Fragment() {
     private lateinit var viewModel: ChuckFactsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.single_fact_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_random_fact, container, false)
 
 
         viewModel = ViewModelProvider(this)[ChuckFactsViewModel::class.java]
@@ -37,7 +37,7 @@ class SingleFactFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var storedResponse: ChuckFact? = null
-        val chuckFactTextView: TextView = view.findViewById(R.id.chuck_fact_tv)
+        val chuckFactTextView: TextView = view.findViewById(R.id.tv_stored_fact_text)
         val updatedFactTextView: TextView = view.findViewById(R.id.tv_updated_time)
         val createdFactTextView: TextView = view.findViewById(R.id.tv_created_time)
         val progressBar: ProgressBar = view.findViewById(R.id.random_progress_bar)
@@ -51,8 +51,8 @@ class SingleFactFragment : Fragment() {
                     response.data?.let { factResponse ->
                         storedResponse = factResponse
                         chuckFactTextView.text = storedResponse!!.value
-                        updatedFactTextView.text = "Updated at: ${storedResponse!!.updatedAt}"
-                        createdFactTextView.text = "Created at: ${storedResponse!!.createdAt}"
+                        updatedFactTextView.text = "Updated at: ${(storedResponse!!.updatedAt).take(19)}"
+                        createdFactTextView.text = "Created at: ${(storedResponse!!.createdAt).take(19)}"
                     }
                 }
 
