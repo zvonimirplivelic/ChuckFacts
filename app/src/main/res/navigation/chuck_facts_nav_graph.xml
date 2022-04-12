@@ -40,6 +40,9 @@
         <argument
             android:name="selectedFact"
             app:argType="com.zvonimirplivelic.chuckfacts.model.ChuckFact" />
+        <action
+            android:id="@+id/action_storedFactFragment_to_navigation_random_fact"
+            app:destination="@id/navigation_random_fact" />
     </fragment>
     <fragment
         android:id="@+id/selectedSearchedFactFragment"

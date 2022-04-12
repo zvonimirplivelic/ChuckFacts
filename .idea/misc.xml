@@ -3,10 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout-land/fragment_fact_list.xml" value="0.164021164021164" />
+        <entry key="app/src/main/res/layout-land/fragment_random_fact.xml" value="0.164021164021164" />
+        <entry key="app/src/main/res/layout-land/fragment_selected_searched_fact.xml" value="0.164021164021164" />
+        <entry key="app/src/main/res/layout-land/fragment_stored_fact.xml" value="0.164021164021164" />
+        <entry key="app/src/main/res/layout-land/search_facts_fragment.xml" value="0.164021164021164" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/fact_list_item.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/fragment_fact_list.xml" value="0.18885869565217392" />
         <entry key="app/src/main/res/layout/fragment_random_fact.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/fragment_selected_searched_fact.xml" value="0.18885869565217392" />
         <entry key="app/src/main/res/layout/fragment_stored_fact.xml" value="0.1" />
         <entry key="app/src/main/res/layout/random_fact_fragment.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/search_facts_fragment.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/single_fact_fragment.xml" value="0.18885869565217392" />
       </map>
     </option>

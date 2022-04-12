@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import com.zvonimirplivelic.chuckfacts.R
 import com.zvonimirplivelic.chuckfacts.model.ChuckFact
 import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsViewModel
@@ -36,7 +35,7 @@ class RandomFactFragment : Fragment() {
         val updatedFactTextView: TextView = view.findViewById(R.id.tv_updated_time)
         val createdFactTextView: TextView = view.findViewById(R.id.tv_created_time)
         val progressBar: ProgressBar = view.findViewById(R.id.random_progress_bar)
-        val shareImageView: ImageView = view.findViewById(R.id.iv_share_fact)
+        val shareImageView: ImageView = view.findViewById(R.id.iv_share_stored_fact)
         val storeImageView: ImageView = view.findViewById(R.id.iv_store_fact)
 
         viewModel = ViewModelProvider(this)[ChuckFactsViewModel::class.java]

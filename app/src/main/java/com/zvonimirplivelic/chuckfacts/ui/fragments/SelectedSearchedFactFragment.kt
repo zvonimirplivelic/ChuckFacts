@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -30,7 +29,7 @@ class SelectedSearchedFactFragment : Fragment() {
         val chuckFactTextView: TextView = view.findViewById(R.id.tv_stored_fact_text)
         val updatedFactTextView: TextView = view.findViewById(R.id.tv_updated_time)
         val createdFactTextView: TextView = view.findViewById(R.id.tv_created_time)
-        val shareImageView: ImageView = view.findViewById(R.id.iv_share_fact)
+        val shareImageView: ImageView = view.findViewById(R.id.iv_share_stored_fact)
         val storeImageView: ImageView = view.findViewById(R.id.iv_store_fact)
 
         viewModel = ViewModelProvider(this)[ChuckFactsViewModel::class.java]

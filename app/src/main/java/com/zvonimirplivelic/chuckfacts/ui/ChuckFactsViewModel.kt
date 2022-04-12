@@ -118,7 +118,7 @@ class ChuckFactsViewModel(
         chuckFactsRepository.saveChuckFact(chuckFact)
     }
 
-    fun deleteFact(factId: String) = viewModelScope.launch {
+    suspend fun deleteFact(factId: String)  {
         chuckFactsRepository.deleteChuckFact(factId)
     }
 

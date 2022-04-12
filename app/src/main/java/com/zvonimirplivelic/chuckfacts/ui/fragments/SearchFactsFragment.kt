@@ -105,7 +105,10 @@ class SearchFactsFragment : Fragment(R.layout.search_facts_fragment),
     override fun onItemClick(position: Int) {
         val clickedFactString = searchedFactAdapter.differ.currentList[position]
 
-        val action = SearchFactsFragmentDirections.actionNavigationFactSearchToSelectedSearchedFactFragment(clickedFactString)
+        val action =
+            SearchFactsFragmentDirections.actionNavigationFactSearchToSelectedSearchedFactFragment(
+                clickedFactString
+            )
         requireView().findNavController().navigate(action)
     }
 }
