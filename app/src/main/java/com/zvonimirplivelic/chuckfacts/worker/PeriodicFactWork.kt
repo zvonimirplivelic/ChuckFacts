@@ -23,8 +23,9 @@ import timber.log.Timber
 class PeriodicFactWork(context: Context, workerParameters: WorkerParameters) :
     CoroutineWorker(context, workerParameters) {
 
+    private val chuckFactsDao = ChuckFactsDatabase.invoke(context).getFactsDao()
     private val chuckFactsRepository =
-        ChuckFactsRepository(ChuckFactsDatabase.invoke(applicationContext))
+        ChuckFactsRepository(chuckFactsDao)
 
     override suspend fun doWork(): Result {
         try {

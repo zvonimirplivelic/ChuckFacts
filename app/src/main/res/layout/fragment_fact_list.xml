@@ -8,7 +8,7 @@
     tools:context=".ui.fragments.FactListFragment">
 
     <Button
-        android:id="@+id/delete_all_facts_btn"
+        android:id="@+id/btn_delete_all_facts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -22,15 +22,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/saved_facts_list_rv"/>
+        app:layout_constraintBottom_toTopOf="@id/rv_saved_facts_list"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/saved_facts_list_rv"
+        android:id="@+id/rv_saved_facts_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/delete_all_facts_btn" />
+        app:layout_constraintTop_toBottomOf="@id/btn_delete_all_facts" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

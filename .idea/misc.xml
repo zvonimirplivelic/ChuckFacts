@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/layout/fragment_random_fact.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/fragment_selected_searched_fact.xml" value="0.18885869565217392" />
+        <entry key="app/src/main/res/layout/fragment_stored_fact.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/random_fact_fragment.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/single_fact_fragment.xml" value="0.18885869565217392" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

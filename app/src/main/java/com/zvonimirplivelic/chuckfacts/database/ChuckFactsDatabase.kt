@@ -9,7 +9,7 @@ import com.zvonimirplivelic.chuckfacts.util.Constants.DATABASE_NAME
 
 @Database(
     entities = [ChuckFact::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 abstract class ChuckFactsDatabase : RoomDatabase() {
@@ -31,6 +31,6 @@ abstract class ChuckFactsDatabase : RoomDatabase() {
                 context.applicationContext,
                 ChuckFactsDatabase::class.java,
                 DATABASE_NAME
-            ).build()
+            ).fallbackToDestructiveMigration().build()
     }
 }

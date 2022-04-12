@@ -7,17 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.chuckfacts.R
 import com.zvonimirplivelic.chuckfacts.adapter.ChuckFactAdapter
-import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsActivity
 import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsViewModel
 import kotlinx.coroutines.launch
 
-class FactListFragment : Fragment(R.layout.fact_list_fragment),
+class FactListFragment : Fragment(R.layout.fragment_fact_list),
     ChuckFactAdapter.OnItemClickListener {
     private lateinit var viewModel: ChuckFactsViewModel
     lateinit var chuckFactAdapter: ChuckFactAdapter
@@ -28,7 +28,7 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ((activity) as ChuckFactsActivity).viewModel
+        viewModel = ViewModelProvider(this)[ChuckFactsViewModel::class.java]
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -36,9 +36,9 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val clearListBtn: Button = view.findViewById(R.id.delete_all_facts_btn)
+        val clearListBtn: Button = view.findViewById(R.id.btn_delete_all_facts)
 
-        recyclerView = view.findViewById(R.id.saved_facts_list_rv)
+        recyclerView = view.findViewById(R.id.rv_saved_facts_list)
         setupRecyclerView()
 
         viewModel.getSavedFacts().observe(viewLifecycleOwner) { chuckFacts ->
@@ -82,9 +82,9 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
     override fun onItemClick(position: Int) {
         val clickedFactString = chuckFactAdapter.differ.currentList[position]
 
-        val action = FactListFragmentDirections.factListToSingleFact(clickedFactString.value)
+        val action = FactListFragmentDirections.actionNavigationFactListToStoredFactFragment(clickedFactString)
         requireView().findNavController().navigate(action)
-    }
+//
 //        val alertDialog: AlertDialog? = activity?.let {
 //            val builder = AlertDialog.Builder(it)
 //
@@ -93,7 +93,7 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
 //                setMessage("Do you want to delete this Chuck Fact?")
 //                setIcon(R.drawable.ic_new_chuck_fact)
 //                setPositiveButton("Yes") { dialog, _ ->
-//                    viewModel.deleteFact(chuckFactAdapter.differ.currentList[position])
+//                    viewModel.deleteFact(clickedFactString.id)
 //                    dialog.dismiss()
 //                }
 //                setNegativeButton("No") { dialog, _ ->
@@ -103,5 +103,5 @@ class FactListFragment : Fragment(R.layout.fact_list_fragment),
 //            builder?.create()
 //        }
 //        alertDialog?.show()
-//    }
+    }
 }

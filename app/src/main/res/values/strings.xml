@@ -2,4 +2,6 @@
     <string name="app_name">Chuck Facts</string>
     <string name="botnav_search_facts">Search facts</string>
     <string name="botnav_saved_facts">Saved facts</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

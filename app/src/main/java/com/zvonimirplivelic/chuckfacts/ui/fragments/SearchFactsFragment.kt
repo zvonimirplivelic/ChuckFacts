@@ -10,6 +10,8 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.chuckfacts.R
@@ -36,7 +38,7 @@ class SearchFactsFragment : Fragment(R.layout.search_facts_fragment),
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = ((activity) as ChuckFactsActivity).viewModel
+        viewModel = ViewModelProvider(this)[ChuckFactsViewModel::class.java]
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -101,23 +103,9 @@ class SearchFactsFragment : Fragment(R.layout.search_facts_fragment),
     }
 
     override fun onItemClick(position: Int) {
-        val alertDialog: AlertDialog? = activity?.let {
-            val builder = AlertDialog.Builder(it)
+        val clickedFactString = searchedFactAdapter.differ.currentList[position]
 
-            builder.apply {
-                setTitle("Save Fact")
-                setMessage("Do you want to save this Chuck Fact?")
-                setIcon(R.drawable.ic_new_chuck_fact)
-                setPositiveButton("Yes") { dialog, _ ->
-                    viewModel.saveFact(searchedFactAdapter.differ.currentList[position])
-                    dialog.dismiss()
-                }
-                setNegativeButton("No") { dialog, _ ->
-                    dialog.cancel()
-                }
-            }
-            builder?.create()
-        }
-        alertDialog?.show()
+        val action = SearchFactsFragmentDirections.actionNavigationFactSearchToSelectedSearchedFactFragment(clickedFactString)
+        requireView().findNavController().navigate(action)
     }
 }

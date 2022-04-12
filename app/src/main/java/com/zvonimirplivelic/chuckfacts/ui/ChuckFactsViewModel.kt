@@ -7,11 +7,11 @@ import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
 import android.provider.ContactsContract.CommonDataKinds.Email
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zvonimirplivelic.chuckfacts.ChuckFactsApplication
+import com.zvonimirplivelic.chuckfacts.database.ChuckFactsDatabase
 import com.zvonimirplivelic.chuckfacts.model.ChuckFact
 import com.zvonimirplivelic.chuckfacts.model.ChuckFactList
 import com.zvonimirplivelic.chuckfacts.repository.ChuckFactsRepository
@@ -19,19 +19,24 @@ import com.zvonimirplivelic.chuckfacts.util.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import timber.log.Timber
 import java.io.IOException
+import java.util.*
 
 class ChuckFactsViewModel(
     val app: Application,
-    private val chuckFactsRepository: ChuckFactsRepository
 ) : AndroidViewModel(app) {
+    private val chuckFactsRepository: ChuckFactsRepository
 
     val randomFact: MutableLiveData<Resource<ChuckFact>> = MutableLiveData()
     var randomFactResponse: ChuckFact? = null
 
     val searchFact: MutableLiveData<Resource<ChuckFactList>> = MutableLiveData()
     var searchFactResponse: ChuckFactList? = null
+
+    init {
+        val chuckFactDao = ChuckFactsDatabase.invoke(app).getFactsDao()
+        chuckFactsRepository = ChuckFactsRepository(chuckFactDao)
+    }
 
     fun getRandomFact() = viewModelScope.launch {
         safeRandomFactCall()
@@ -81,8 +86,7 @@ class ChuckFactsViewModel(
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
 
-                    randomFactResponse = resultResponse
-                    saveFact(resultResponse)
+                randomFactResponse = resultResponse
 
                 return Resource.Success(randomFactResponse ?: resultResponse)
             }
@@ -108,11 +112,14 @@ class ChuckFactsViewModel(
     fun getSavedFacts() = chuckFactsRepository.getSavedFacts()
 
     fun saveFact(chuckFact: ChuckFact) = viewModelScope.launch {
+        val currentTime: Long = Calendar.getInstance().timeInMillis
+
+        chuckFact.savedAt = currentTime
         chuckFactsRepository.saveChuckFact(chuckFact)
     }
 
-    fun deleteFact(chuckFact: ChuckFact) = viewModelScope.launch {
-        chuckFactsRepository.deleteChuckFact(chuckFact)
+    fun deleteFact(factId: String) = viewModelScope.launch {
+        chuckFactsRepository.deleteChuckFact(factId)
     }
 
     fun deleteAllFacts() = viewModelScope.launch {
