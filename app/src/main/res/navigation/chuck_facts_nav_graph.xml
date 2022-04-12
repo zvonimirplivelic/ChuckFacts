@@ -25,11 +25,27 @@
     <fragment
         android:id="@+id/navigation_fact_search"
         android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.SearchFactsFragment"
-        tools:layout="@layout/search_facts_fragment" />
+        tools:layout="@layout/search_facts_fragment">
+        <action
+            android:id="@+id/action_navigation_fact_search_to_selectedSearchedFactFragment"
+            app:destination="@id/selectedSearchedFactFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_random_fact"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/storedFactFragment"
         android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.StoredFactFragment"
         tools:layout="@layout/fragment_stored_fact">
+        <argument
+            android:name="selectedFact"
+            app:argType="com.zvonimirplivelic.chuckfacts.model.ChuckFact" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectedSearchedFactFragment"
+        android:name="com.zvonimirplivelic.chuckfacts.ui.fragments.SelectedSearchedFactFragment"
+        android:label="fragment_selected_searched_fact"
+        tools:layout="@layout/fragment_selected_searched_fact">
         <argument
             android:name="selectedFact"
             app:argType="com.zvonimirplivelic.chuckfacts.model.ChuckFact" />

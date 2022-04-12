@@ -13,30 +13,25 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.zvonimirplivelic.chuckfacts.R
 import com.zvonimirplivelic.chuckfacts.model.ChuckFact
 import com.zvonimirplivelic.chuckfacts.ui.ChuckFactsViewModel
 import com.zvonimirplivelic.chuckfacts.util.Resource
 
 class RandomFactFragment : Fragment() {
+
     private lateinit var viewModel: ChuckFactsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.fragment_random_fact, container, false)
 
+        var displayedFact: ChuckFact? = null
 
-        viewModel = ViewModelProvider(this)[ChuckFactsViewModel::class.java]
-        viewModel.getRandomFact()
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        var storedResponse: ChuckFact? = null
         val chuckFactTextView: TextView = view.findViewById(R.id.tv_stored_fact_text)
         val updatedFactTextView: TextView = view.findViewById(R.id.tv_updated_time)
         val createdFactTextView: TextView = view.findViewById(R.id.tv_created_time)
@@ -44,15 +39,20 @@ class RandomFactFragment : Fragment() {
         val shareImageView: ImageView = view.findViewById(R.id.iv_share_fact)
         val storeImageView: ImageView = view.findViewById(R.id.iv_store_fact)
 
+        viewModel = ViewModelProvider(this)[ChuckFactsViewModel::class.java]
+        viewModel.getRandomFact()
+
         viewModel.randomFact.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     progressBar.isVisible = false
                     response.data?.let { factResponse ->
-                        storedResponse = factResponse
-                        chuckFactTextView.text = storedResponse!!.value
-                        updatedFactTextView.text = "Updated at: ${(storedResponse!!.updatedAt).take(19)}"
-                        createdFactTextView.text = "Created at: ${(storedResponse!!.createdAt).take(19)}"
+                        displayedFact = factResponse
+                        chuckFactTextView.text = displayedFact!!.value
+                        updatedFactTextView.text =
+                            "Updated at: ${(displayedFact!!.updatedAt).take(19)}"
+                        createdFactTextView.text =
+                            "Created at: ${(displayedFact!!.createdAt).take(19)}"
                     }
                 }
 
@@ -76,7 +76,7 @@ class RandomFactFragment : Fragment() {
                 setTitle("Save Fact")
                 setMessage("Do you want to save this fact?")
                 setPositiveButton("Save fact") { _, _ ->
-                    viewModel.saveFact(storedResponse!!)
+                    viewModel.saveFact(displayedFact!!)
                     Toast.makeText(
                         context,
                         "Fact saved",
@@ -100,5 +100,7 @@ class RandomFactFragment : Fragment() {
             val shareIntent = Intent.createChooser(sendIntent, "Share this fact")
             startActivity(shareIntent)
         }
+
+        return view
     }
 }

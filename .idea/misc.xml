@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/fragment_random_fact.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/fragment_selected_searched_fact.xml" value="0.18885869565217392" />
         <entry key="app/src/main/res/layout/fragment_stored_fact.xml" value="0.1" />
         <entry key="app/src/main/res/layout/random_fact_fragment.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/single_fact_fragment.xml" value="0.18885869565217392" />
