@@ -27,7 +27,6 @@
         android:id="@+id/rv_saved_facts_list"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/btn_delete_all_facts"
         app:layout_constraintRight_toRightOf="parent"
