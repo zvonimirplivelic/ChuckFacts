@@ -11,7 +11,7 @@ interface ChuckFactsDao {
     suspend fun updateOrInsertFact(chuckFact: ChuckFact)
 
     @Query("DELETE FROM chuck_facts WHERE id = :factId")
-    fun deleteFact(factId: String)
+    suspend fun deleteFact(factId: String)
 
 
     @Query("DELETE FROM chuck_facts")

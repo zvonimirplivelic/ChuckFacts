@@ -18,7 +18,7 @@ class ChuckFactsRepository(private val chuckDao: ChuckFactsDao) {
     suspend fun saveChuckFact(chuckFact: ChuckFact) =
         chuckDao.updateOrInsertFact(chuckFact)
 
-    fun deleteChuckFact(factId: String) =
+    suspend fun deleteChuckFact(factId: String) =
         chuckDao.deleteFact(factId)
 
     suspend fun clearFactTable() = chuckDao.deleteAllFacts()

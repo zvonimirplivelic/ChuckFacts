@@ -53,10 +53,11 @@ class StoredFactFragment : Fragment() {
                 setTitle("Delete Fact")
                 setMessage("Do you want to delete this fact?")
                 setPositiveButton("Delete fact") { _, _ ->
-                    val action =
-                        StoredFactFragmentDirections.actionStoredFactFragmentToNavigationRandomFact()
-                    requireView().findNavController().navigate(action)
                     lifecycleScope.launch {
+                        val action =
+                            StoredFactFragmentDirections.actionStoredFactFragmentToNavigationRandomFact()
+                        requireView().findNavController().navigate(action)
+
                         viewModel.deleteFact(args.selectedFact.id)
                     }
 
